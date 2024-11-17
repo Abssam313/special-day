@@ -7,25 +7,23 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-image: url('IMG_20241118_001702.jpg'); /* Replace with your image path */
-            background-size: cover; /* Cover the entire background */
-            background-position: center center; /* Center the image */
-            background-attachment: fixed; /* Fixed background effect */
-            background-repeat: no-repeat; /* Don't repeat the image */
-            text-align: center;
-            padding: 50px;
             margin: 0;
+            padding: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            overflow: hidden;
+            text-align: center;
+            background: url('IMG_20241118_001702.jpg') no-repeat center center fixed; /* Add background image URL here */
+            background-size: cover; /* Ensure it covers the screen */
+            background-position: center; /* Center the image */
+            background-attachment: fixed; /* Keep it fixed on the screen */
         }
 
-        /* Button Styling - starting color is light blue */
+        /* Button Styling */
         .button {
-            background-color: #ADD8E6; /* Light blue color */
+            background-color: #D32D41; /* Light blue color */
             color: white;
             font-size: 1.5em;
             padding: 15px 30px;
@@ -33,6 +31,7 @@
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: absolute;
         }
 
         .button:hover {
@@ -119,7 +118,7 @@
     <!-- Birthday message container -->
     <div class="birthday-message" id="birthdayMessage">
         🎉 Happyyy Birthdayyy, Anushka! 🎉 <br>
-            Partyy toh banti hai bestfriendd! 🎂🥳🎉
+            Partyy toh banti hai bestfriendd! 😉🥳🎉
     </div>
 
     <script>
@@ -130,6 +129,17 @@
         const cheerSound = new Audio('happy-birthday-to-you-bossa-nova-style-arrangement-21399.mp3'); // Replace with your own sound file
         const confettiSound = new Audio('confetti-sound-effect-(hd)-made-with-Voicemod.mp3'); // Replace with your own sound file
         const buttonClickSound = new Audio('ui-click-43196.mp3'); // Button click sound effect
+
+        // Button text and colors arrays for customization
+        const buttonText = [
+            "Isko click kar", "Achse kar", "Firse", "Dum nhi hai kya?", "Buddhi",
+            "Slow hai", "Acha ye last😂", "Nhi ye last", "Last wala last", "Ab pakka last"
+        ];
+
+        const buttonColors = [
+            "#D32D41", "#D32D41", "#D32D41", "#D32D41", "#D32D41",
+            "#D32D41", "#D32D41", "#D32D41", "#D32D41", "#D32D41"
+        ];
 
         function handleButtonClick() {
             // Increment the click count
@@ -149,13 +159,16 @@
                 // Create a new button
                 const newButton = document.createElement("button");
                 newButton.classList.add("button");
-                newButton.innerHTML = "Click Here";
+
+                // Set custom text and color
+                newButton.innerHTML = buttonText[clickCount % buttonText.length];
+                newButton.style.backgroundColor = buttonColors[clickCount % buttonColors.length];
+
                 newButton.onclick = handleButtonClick;
 
                 // Position the new button at a random location on the screen
                 const randomX = Math.random() * (window.innerWidth - 200); // 200px is the button width
                 const randomY = Math.random() * (window.innerHeight - 100); // 100px is the button height
-                newButton.style.position = "absolute";
                 newButton.style.left = randomX + "px";
                 newButton.style.top = randomY + "px";
 
@@ -180,9 +193,6 @@
 
                 // Trigger particle effect
                 createParticles();
-
-                // After 14 seconds, show the next button
-                setTimeout(showNextButton, 14000); // 14 seconds delay
             }
         }
 
@@ -235,30 +245,6 @@
                     confetti.remove();
                 }, 2000);
             }
-        }
-
-        // Show the next button after 14 seconds
-        function showNextButton() {
-            // Create a new button
-            const newButton = document.createElement("button");
-            newButton.classList.add("button");
-            newButton.innerHTML = "Next Button!";
-            newButton.onclick = handleNextButtonClick;
-
-            // Position the new button at a random location on the screen
-            const randomX = Math.random() * (window.innerWidth - 200); // 200px is the button width
-            const randomY = Math.random() * (window.innerHeight - 100); // 100px is the button height
-            newButton.style.position = "absolute";
-            newButton.style.left = randomX + "px";
-            newButton.style.top = randomY + "px";
-
-            // Append the new button to the body
-            document.body.appendChild(newButton);
-        }
-
-        // Handle the next button click (you can customize this further)
-        function handleNextButtonClick() {
-            alert("You clicked the Next Button!");
         }
     </script>
 
