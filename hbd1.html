@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Anushka!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('IMG_20241118_001702.jpg'); /* Replace with your image path */
+            background-size: cover; /* Cover the entire background */
+            background-position: center center; /* Center the image */
+            background-attachment: fixed; /* Fixed background effect */
+            background-repeat: no-repeat; /* Don't repeat the image */
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Button Styling - starting color is light blue */
+        .button {
+            background-color: #ADD8E6; /* Light blue color */
+            color: white;
+            font-size: 1.5em;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #87CEFA; /* Lighter blue on hover */
+            transform: scale(1.1);
+        }
+
+        /* Birthday message */
+        .birthday-message {
+            font-size: 2em;
+            color: #fff;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+            visibility: hidden; /* Initially hidden */
+            opacity: 0;
+            margin-top: 20px;
+            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        /* Gradient background animation */
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Particle effect */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            animation: particleAnimation 1s forwards;
+        }
+
+        @keyframes particleAnimation {
+            0% {
+                transform: scale(0) translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Confetti effect */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ffcc00;
+            border-radius: 50%;
+            animation: confettiFall 2s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Initial Button to start the process -->
+    <button class="button" id="startButton" onclick="handleButtonClick()">Click Here</button>
+
+    <!-- Birthday message container -->
+    <div class="birthday-message" id="birthdayMessage">
+        🎉 Happyyy Birthdayyy, Anushka! 🎉 <br>
+            Partyy toh banti hai bestfriendd! 🎂🥳🎉
+    </div>
+
+    <script>
+        let clickCount = 0;
+        const maxClicks = 10; // Changed to 10 buttons
+
+        // Load the sound effects
+        const cheerSound = new Audio('happy-birthday-to-you-bossa-nova-style-arrangement-21399.mp3'); // Replace with your own sound file
+        const confettiSound = new Audio('confetti-sound-effect-(hd)-made-with-Voicemod.mp3'); // Replace with your own sound file
+        const buttonClickSound = new Audio('ui-click-43196.mp3'); // Button click sound effect
+
+        function handleButtonClick() {
+            // Increment the click count
+            clickCount++;
+
+            // Play the button click sound on every click
+            buttonClickSound.play();
+
+            // Get the current button (the one being clicked)
+            const currentButton = document.querySelector(".button");
+
+            // Hide the current button and remove it from the DOM
+            currentButton.remove();
+
+            // Create a new button if the click count is less than maxClicks
+            if (clickCount < maxClicks) {
+                // Create a new button
+                const newButton = document.createElement("button");
+                newButton.classList.add("button");
+                newButton.innerHTML = "Click Here";
+                newButton.onclick = handleButtonClick;
+
+                // Position the new button at a random location on the screen
+                const randomX = Math.random() * (window.innerWidth - 200); // 200px is the button width
+                const randomY = Math.random() * (window.innerHeight - 100); // 100px is the button height
+                newButton.style.position = "absolute";
+                newButton.style.left = randomX + "px";
+                newButton.style.top = randomY + "px";
+
+                // Append the new button to the body
+                document.body.appendChild(newButton);
+            }
+
+            // Show birthday message only after the last click (10th click)
+            if (clickCount === maxClicks) {
+                const messageElement = document.getElementById("birthdayMessage");
+                messageElement.style.visibility = "visible";
+                messageElement.style.opacity = 1;
+
+                // Play the cheer sound
+                cheerSound.play();
+
+                // Trigger party poppers (confetti)
+                createConfetti();
+
+                // Play confetti sound
+                confettiSound.play();
+
+                // Trigger particle effect
+                createParticles();
+
+                // After 14 seconds, show the next button
+                setTimeout(showNextButton, 14000); // 14 seconds delay
+            }
+        }
+
+        // Create particles when the 10th click happens
+        function createParticles() {
+            for (let i = 0; i < 20; i++) {
+                // Create a new particle element
+                const particle = document.createElement("div");
+                particle.classList.add("particle");
+
+                // Set random size and position for each particle
+                const size = Math.random() * 10 + 10; // Size between 10px and 20px
+                const xPos = Math.random() * window.innerWidth;
+                const yPos = Math.random() * window.innerHeight;
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${xPos}px`;
+                particle.style.top = `${yPos}px`;
+
+                // Add the particle to the body
+                document.body.appendChild(particle);
+
+                // Remove the particle after animation ends
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000); // Match the duration of the particle animation
+            }
+        }
+
+        // Create confetti when the 10th click happens
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+
+                // Set random position and size
+                confetti.style.left = `${Math.random() * window.innerWidth}px`;
+                confetti.style.top = `${Math.random() * -100}px`; // Start above the screen
+                confetti.style.animationDuration = `${Math.random() * 1 + 1}s`;
+
+                // Randomize the color of the confetti
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+                // Append confetti to the body
+                document.body.appendChild(confetti);
+
+                // Remove the confetti after the animation ends
+                setTimeout(() => {
+                    confetti.remove();
+                }, 2000);
+            }
+        }
+
+        // Show the next button after 14 seconds
+        function showNextButton() {
+            // Create a new button
+            const newButton = document.createElement("button");
+            newButton.classList.add("button");
+            newButton.innerHTML = "Next Button!";
+            newButton.onclick = handleNextButtonClick;
+
+            // Position the new button at a random location on the screen
+            const randomX = Math.random() * (window.innerWidth - 200); // 200px is the button width
+            const randomY = Math.random() * (window.innerHeight - 100); // 100px is the button height
+            newButton.style.position = "absolute";
+            newButton.style.left = randomX + "px";
+            newButton.style.top = randomY + "px";
+
+            // Append the new button to the body
+            document.body.appendChild(newButton);
+        }
+
+        // Handle the next button click (you can customize this further)
+        function handleNextButtonClick() {
+            alert("You clicked the Next Button!");
+        }
+    </script>
+
+</body>
+</html>
